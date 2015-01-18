@@ -1,0 +1,20 @@
+#site-title {
+	display: inline;
+	text-transform: capitalize;
+	font-family: Oswald;
+	font-size: 4em;
+	color: black;
+}
+#site-title a:hover, #site-title a {
+	text-decoration: none;
+}
+.lighten {
+	color: white;
+}
+#site-description {
+	font-family: tangerine;
+	font-size: small;
+}
+#chart2 #quick-links {
+	float: right;
+}

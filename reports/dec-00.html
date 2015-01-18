@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>PNG LOOP | Reporting App | Home Page</title>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine" />
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    </head>
+
+    <body>
+        <div id="wrapper" class="container">
+        <header class="container">
+            <a href="../index.html" ><img src="../img/logo21.png" /></a>
+            <a href="../index.html" ><h1 id="site-title">reporting application</h1></a>
+        </header>
+       <nav class="navbar navbar-default">
+   <nav class="navbar navbar-inverse">
+  <div class="container-fluid text-uppercase">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../about.html">Reporting app</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><a href="../index.html">Home</a></li>
+        <li class="active dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">2014 Reports
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li class="active"><a href="dec-00.html">December</a></li>
+            <li><a href="#">November</a></li>
+            <li><a href="#">October</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">2015 Reports
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">January</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- nav ends -->
+<div class="container" id="chart2">
+    <div class="col-md-9">
+        <h1 class="text-uppercase">DECEMBER summary report</h1>
+        <div class="text-warning">
+            <p>Below is a bar chart showing the contribution of each Reporter for the month. Beside the name of the reporter is the total stories published. If you have any Queries please contact <a href="mailto:Sylver.Yagi@loopnewsgroup.com">Sylver Yagi</a></p>
+        </div>
+        <hr />
+        <script>
+            d3.json("../data/dec-00.json", function (data) {
+                
+                var width=800;
+                var height=500;
+                var highestValueInDataRange = 148;
+                //var highestValueInDataRange = d3.max(d.count);
+
+                var widthScale = d3.scale.linear()
+                                    .domain([0,highestValueInDataRange])
+                                    .range([0,width]);
+
+                var color = d3.scale.linear()
+                                .domain([0,60])
+                                .range(["red","yellow"]);
+
+                var axis = d3.svg.axis()
+                            .ticks(10)
+                            .scale(widthScale);
+
+                var canvas = d3.select("#chart2").append("svg")
+                    .attr("width",width)
+                    .attr("height",height);
+                    // .append("g")
+                    // .append("transform","translate(0,25)");
+
+                var bars = canvas.selectAll("rect")
+                    .data(data)
+                    .enter()
+                        .append("rect")
+                        .attr("width", function (d){ return widthScale(d.COUNT); }) //function(d){return widthScale(d);})
+                        .attr("height",40)
+                        .attr("y", function (d,i) {return i * 50;})
+                        .attr("fill", "#ccc");
+                        //.attr("fill", function(d){return color(d);} );  
+                
+                canvas.selectAll("text")
+                    .data(data)
+                    .enter()
+                        .append("text")
+                        .attr("fill","red")
+                        .attr("y", function (d,i) {return i * 50 + 25;})
+                        .text(function (d){return d.AUTHOR + " - " + d.COUNT;})
+                        .attr("x", function (d,i) {return i + 15;});
+
+                canvas.append("g")
+                    .attr("transform","translate(0,450)")
+                    .attr("fill", "maroon")
+                    .call(axis);
+            });        
+        </script>
+    </div>
+    <div id="quick-links" class="col-md-3 modal-body">
+        <a href="#quick-links" class="btn btn-info btn-lg">
+            <span class="glyphicon glyphicon-search btn-lg"></span> QUICK REPORTS
+        </a>
+        <p><ul class="pagination"><span class="text-uppercase;">DECEMBER REPORTS</span>
+                <li><a href="dec-01.html" title="december week 1 report">December Week One Report</a></li>
+                <li><a href="dec-02.html" title="december week 2 report">December Week Two Report</a></li>
+                <li><a href="dec-03.html" title="december week 3 report">December Week Three Report</a></li>
+                <li><a href="dec-04.html" title="december week 4 report">December Week Four Report</a></li>
+            </ul>
+        </p>
+        <p>
+            <ul class="pagination"><span>VIEW OTHER REPORTS</span>
+                <li><a href="jan-00.html">View January Reports</a></li>
+                <li><a href="nov-00.html">View November Reports</a></li>
+                <li><a href="oct-00.html">View October Reports</a></li>
+            </ul>
+        </p>
+    </div>
+</div>
+<div>
+    <footer class="modal-body text-center">
+        <h2>Copyright PNG LOOP 2014</h2>
+        <p>This reporting tool remains the property of PNG Loop</p>
+    </footer>
+</div>
+</body>
+</html>
